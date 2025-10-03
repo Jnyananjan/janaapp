@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Send, Lock } from "lucide-react";
+import { Send, Lock, ArrowLeft } from "lucide-react";
 import { AuthUser } from "@/lib/auth";
 import { encryptMessage, decryptMessage, importPublicKey } from "@/lib/crypto";
 import { toast } from "sonner";
@@ -22,9 +22,11 @@ interface Message {
 interface ChatWindowProps {
   currentUser: AuthUser;
   recipientId: string | null;
+  onBack: () => void;
+  className?: string;
 }
 
-export function ChatWindow({ currentUser, recipientId }: ChatWindowProps) {
+export function ChatWindow({ currentUser, recipientId, onBack, className }: ChatWindowProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState("");
   const [sending, setSending] = useState(false);
@@ -166,7 +168,7 @@ export function ChatWindow({ currentUser, recipientId }: ChatWindowProps) {
 
   if (!recipientId) {
     return (
-      <div className="flex-1 flex items-center justify-center bg-background/50">
+      <div className={cn("flex-1 flex-col items-center justify-center bg-background/50", className)}>
         <div className="text-center space-y-3">
           <div className="p-4 rounded-full bg-primary/10 border border-primary/20 inline-block">
             <Lock className="h-8 w-8 text-primary" />
@@ -178,11 +180,19 @@ export function ChatWindow({ currentUser, recipientId }: ChatWindowProps) {
   }
 
   return (
-    <div className="flex-1 flex flex-col">
+    <div className={cn("flex-1 flex-col", className)}>
       {/* Chat header */}
       {recipientUser && (
         <div className="border-b border-border bg-card px-6 py-4">
           <div className="flex items-center gap-3">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onBack}
+              className="md:hidden"
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </Button>
             <div className="flex-1">
               <h2 className="font-semibold">{recipientUser.display_name}</h2>
               <p className="text-xs text-muted-foreground flex items-center gap-1">

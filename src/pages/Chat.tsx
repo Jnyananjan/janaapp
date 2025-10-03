@@ -64,10 +64,13 @@ const Chat = () => {
           currentUserId={user.id}
           selectedUserId={selectedUserId}
           onSelectUser={setSelectedUserId}
+          className={selectedUserId ? "hidden md:flex" : "flex"}
         />
         <ChatWindow
           currentUser={user}
           recipientId={selectedUserId}
+          onBack={() => setSelectedUserId(null)}
+          className={selectedUserId ? "flex" : "hidden md:flex"}
         />
       </div>
     </div>

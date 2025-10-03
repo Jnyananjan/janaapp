@@ -15,9 +15,10 @@ interface ChatSidebarProps {
   currentUserId: string;
   selectedUserId: string | null;
   onSelectUser: (userId: string) => void;
+  className?: string;
 }
 
-export function ChatSidebar({ currentUserId, selectedUserId, onSelectUser }: ChatSidebarProps) {
+export function ChatSidebar({ currentUserId, selectedUserId, onSelectUser, className }: ChatSidebarProps) {
   const [users, setUsers] = useState<User[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -47,7 +48,7 @@ export function ChatSidebar({ currentUserId, selectedUserId, onSelectUser }: Cha
   };
 
   return (
-    <div className="w-80 border-r border-border bg-card flex flex-col">
+    <div className={cn("w-full md:w-80 border-r border-border bg-card flex-col", className)}>
       <div className="p-4 border-b border-border">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
